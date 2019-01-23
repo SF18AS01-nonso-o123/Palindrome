@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     var count: Int = 0
     var level: Int = 1
    
-    
+ 
     
     var correct: Bool = false
     var numCorrect: Int = 0
@@ -47,23 +47,14 @@ class ViewController: UIViewController {
     
     @IBAction func returnButtonPressed(_ sender: UITextField) {
         sender.resignFirstResponder()
-        switch level {
-        case 1:
-            inputTextField.placeholder = " Level 1: Enter a one-word palindrome 4 times"
-        case 2:
-           inputTextField.placeholder = " Level 2: Enter a two-word palindrome 4 times"
-        case 3:
-            inputTextField.placeholder = " Level 1: Enter a sentence palindrome"
-        default:
-            instrLabel.text = " Word Power"
-        }
+       
     }
     
     
     @IBAction func enterButtonPressed(_ sender: bevelButton) {
         countNumButtonPressed()
         if count == 1 {
-            displayTextView.text = " "
+            displayTextView.text = "Correct palindromes: + points!"
         }
         var textInput: String = ""
         if let txt: String = inputTextField.text{
@@ -76,41 +67,50 @@ class ViewController: UIViewController {
         correct = oneWordPalindrome(word: textInput)
             if correct == true {
                 displayTextView.text += "\n\(textInput)"
-                instrLabel.text = "Correct! It's a palindrome"
+               
                 numCorrect += 1
+                if numCorrect == 4{
+                   changeText()
+                }
                 score += 10
         } else {
             numCorrect -= 1
             score -= 10
         }
         }else if numCorrect >= 4 && numCorrect < 8 {
-            level = 2
-            displayTextView.text = " "
+            
+            displayTextView.text = "Correct palindromes: + points!"
             instrLabel.text = " Level 2: Enter a one word palindrome 4 times"
-            levelTwo(word: textInput)
+            let newText = levelTwo(word: textInput)
+            if newText != "" {
             correct = oneWordPalindrome(word: textInput)
             correct = oneWordPalindrome(word: textInput)
             if correct == true {
                 displayTextView.text += "\n\(textInput)"
-                instrLabel.text = "Correct! It's a palindrome"
+                
                 numCorrect += 1
                 score += 10
             } else {
                 numCorrect -= 1
                 score -= 10
             }
+            }
             
         } else if numCorrect >= 8 {
-            level = 3
-            displayTextView.text = " "
+            
+            displayTextView.text = "Correct palindromes: + points!"
             instrLabel.text = " Level 3: Enter a sentence palindrome"
             let newText = levelThree(word: textInput)
             correct = oneWordPalindrome(word: newText)
             correct = oneWordPalindrome(word: textInput)
             if correct == true {
                 displayTextView.text += "\n\(textInput)"
-                instrLabel.text = "Correct! It's a palindrome"
                 numCorrect += 1
+                if numCorrect == 4{
+                    level = 2
+                    changeText()
+                    
+                }
                 score += 10
             } else {
                 numCorrect -= 1
@@ -119,6 +119,15 @@ class ViewController: UIViewController {
            
         }
          scoreLabel.text = "Score: \(score)"
+    }
+    
+   func changeText(){
+    _ = Timer.scheduledTimer(withTimeInterval: 0.0, repeats: true) { timer in
+        self.instrLabel.text = "Level \(self.level + 1): Enter a one word palindrome 4 times"
+        self.inputTextField.placeholder = "Level \(self.level + 1): Enter a one word palindrome 4 times"
+        self.displayTextView.text = "Correct palindromes: + points!"
+        
+    }
     }
     
     func countNumButtonPressed(){
@@ -139,11 +148,16 @@ class ViewController: UIViewController {
         }
     }
     
-    func  levelTwo(word: String){
+    func  levelTwo(word: String) -> String{
+        var newWord: String = ""
         let wordCount = numWords(words: word)
         if wordCount != 2{
             instrLabel.text = "You entered wrong number of words"
-        }
+        }else {
+            let condensed = String(word.filter{ (!" \n\t\r\',".contains($0))})
+                newWord = condensed
+            }
+        return newWord
     }
     
     func  levelThree(word: String) -> String{
