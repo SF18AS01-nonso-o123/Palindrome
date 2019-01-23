@@ -9,6 +9,8 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    //MARK: - Outlets
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var instrLabel: UILabel!
     @IBOutlet weak var inputTextField: UITextField!
@@ -17,14 +19,14 @@ class ViewController: UIViewController {
    
     @IBOutlet weak var enterButtn: bevelButton!
     
+    //MARK: - Variables
     var count: Int = 0
     var level: Int = 1
-   
- 
-    
     var correct: Bool = false
     var numCorrect: Int = 0
     var score: Int = 0
+    
+    //MARL: - VIEW
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
