@@ -123,7 +123,7 @@ class ViewController: UIViewController {
     
     //MARK: - Change instruction texts when level changes
    func changeText(){
-  // _ = Timer.scheduledTimer(withTimeInterval: 0.0, repeats: true) { timer in
+
         if numCorrect == 4{
             instrLabel.text = "Congratulations Level 2! Enter a two-word palindrome 4 times"
             inputTextField.placeholder = "Level 2: Enter a two-word palindrome 4 times"
@@ -136,9 +136,7 @@ class ViewController: UIViewController {
             self.displayTextView.text = "Correct palindromes: + 5 points!\n\n Level 3: Only sentences\n\nPunctuatiions allowed. GO!"
             score += 5
             self.scoreLabel.text = "Score\(self.score)"
-       //}
-        
-    }
+        }
     }
     
     func countNumButtonPressed(){
@@ -149,14 +147,12 @@ class ViewController: UIViewController {
     
     func numWords(words: String) -> Int{
         let numwords: [String] = words.components(separatedBy: " ")
-        print("\(numwords)")
         return numwords.count
     }
     
     func levelOne(word: String) -> String?{
         let wordCount = numWords(words: word)
         if wordCount != 1{
-           // print("\(wordCount)")
             instrLabel.text = "You entered wrong number of words"
             return nil
         }else {
@@ -166,10 +162,8 @@ class ViewController: UIViewController {
     
     func  levelTwo(word: String) -> String?{
         let wordCount = numWords(words: word)
-        print("\(wordCount)")
-        if wordCount != 2{
-            print("\(wordCount)")
-            instrLabel.text = "You entered wrong number of words"
+        if wordCount != 2{ 
+         instrLabel.text = "You entered wrong number of words"
             return nil
         }else {
             let condensed = String(word.filter{ (!" \n\t\r\',".contains($0))})
@@ -192,7 +186,6 @@ class ViewController: UIViewController {
     
     //MARK: - check for palindrome
     func oneWordPalindrome(word: String) -> Bool {
-        //let reverse = String(word.reversed())
             return String(word.reversed()) == word
     }
     
