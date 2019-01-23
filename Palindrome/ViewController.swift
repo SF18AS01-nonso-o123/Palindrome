@@ -50,8 +50,9 @@ class ViewController: UIViewController {
        
     }
     
-    
+    //MARK: - Button presson action
     @IBAction func enterButtonPressed(_ sender: bevelButton) {
+        
         countNumButtonPressed()
         if count == 1 {
             displayTextView.text = "Correct palindromes: + points!"
@@ -60,23 +61,28 @@ class ViewController: UIViewController {
         if let txt: String = inputTextField.text{
             textInput = txt.lowercased()
         }
+        
+        //call level one function if user input is a text
         if numCorrect < 4 {
             level = 1
         instrLabel.text = " Level 1: Enter a one word palindrome 4 times"
         levelOne(word: textInput)
         correct = oneWordPalindrome(word: textInput)
             if correct == true {
+                inputTextField.resignFirstResponder()
                 displayTextView.text += "\n\(textInput)"
                
                 numCorrect += 1
                 if numCorrect == 4{
                    changeText()
                 }
-                score += 10
+                score += 5
         } else {
             numCorrect -= 1
             score -= 10
         }
+            
+            //call level two function if user scores correct 4 times
         }else if numCorrect >= 4 && numCorrect < 8 {
             
             displayTextView.text = "Correct palindromes: + points!"
@@ -86,16 +92,19 @@ class ViewController: UIViewController {
             correct = oneWordPalindrome(word: textInput)
             correct = oneWordPalindrome(word: textInput)
             if correct == true {
+                inputTextField.resignFirstResponder()
                 displayTextView.text += "\n\(textInput)"
                 
                 numCorrect += 1
-                score += 10
+                score += 5
             } else {
                 numCorrect -= 1
                 score -= 10
             }
             }
             
+            
+            //call level three function if user scores correct 8 times
         } else if numCorrect >= 8 {
             
             displayTextView.text = "Correct palindromes: + points!"
@@ -108,10 +117,10 @@ class ViewController: UIViewController {
                 numCorrect += 1
                 if numCorrect == 4{
                     level = 2
-                    changeText()
+                    changeText()   //change text of instruction when level changes
                     
                 }
-                score += 10
+                score += 5
             } else {
                 numCorrect -= 1
                 score -= 10
@@ -120,12 +129,24 @@ class ViewController: UIViewController {
         }
          scoreLabel.text = "Score: \(score)"
     }
+
     
+    //MARK: - Change instruction texts when level changes
    func changeText(){
-    _ = Timer.scheduledTimer(withTimeInterval: 0.0, repeats: true) { timer in
-        self.instrLabel.text = "Level \(self.level + 1): Enter a one word palindrome 4 times"
-        self.inputTextField.placeholder = "Level \(self.level + 1): Enter a one word palindrome 4 times"
-        self.displayTextView.text = "Correct palindromes: + points!"
+   // _ = Timer.scheduledTimer(withTimeInterval: 0.0, repeats: true) { timer in
+        if self.level + 1 == 2{
+            self.instrLabel.text = "Congratulations Level 2! Enter a two-word palindrome 4 times"
+            self.inputTextField.placeholder = "Level 2: Enter a two-word palindrome 4 times"
+            self.displayTextView.text = "Correct palindromes: +  5 points!\n\n Level 2: Only two words\n\nPunctuatiions not allowed. GO!"
+            score += 5
+            scoreLabel.text = "Score\(score)"
+        } else if self.level + 1 == 3 {
+            self.instrLabel.text = "Congratulations Level 3! Enter a sentence that is a palindrome"
+            self.inputTextField.placeholder = "Level 2: Enter a two-word palindrome 4 times"
+            self.displayTextView.text = "Correct palindromes: + 5 points!\n\n Level 3: Only sentences\n\nPunctuatiions allowed. GO!"
+            score += 5
+            scoreLabel.text = "Score\(score)"
+       // }
         
     }
     }
@@ -133,6 +154,8 @@ class ViewController: UIViewController {
     func countNumButtonPressed(){
         count += 1
     }
+    
+    //MARK: - Define Levels
     
     func numWords(words: String) -> Int{
         var wordCount: Int = 0
@@ -172,7 +195,7 @@ class ViewController: UIViewController {
        return newWord
     }
     
-    
+    //MARK: - check for palindrome
     func oneWordPalindrome(word: String) -> Bool {
          var isPal: Bool = false
         let reverse = String(word.reversed())
